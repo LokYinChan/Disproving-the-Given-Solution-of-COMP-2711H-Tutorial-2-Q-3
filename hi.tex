@@ -1,0 +1,102 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{comment}  % Load comment package FIRST
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+
+
+\begin{document}
+    This document is based on Amir's 2711h tutorial 2 Question 3, whose solution I disagree with. The following is written to find the general solution to determine which player must win. 
+
+    $\\$
+
+    Given two stacks of blocks. Name the one with fewer blocks as $A$ and another as $B$. 
+    Let the number of blocks that $A$ and $B$ have be $a$ and $b$ respectively.
+
+    Let player M be the player first moves and another player N.
+    
+    Hypothesis: if there exists $d \in \mathbb{N}_{\geq 1}$ such that $a$ and $b$ can be expressed in form of $1 + d$ and $1 + 2d$, then the play must lose, else must win.
+    $\\ \\$
+    Lemma 1: player facing $a = b \geq 1$ must win.
+
+    Proof: The player can reduce $(a, b)$ to $(0, 0)$ easily.
+
+    Lemma 2: The player facing $a = 0, b\geq 1$ must win.
+
+    Proof: The player can reduce $(0, b)$ to $(0, 0)$ easily.
+
+    $\\ \\$
+    Base case: when $d = 1$:
+
+    When player M faces $(1, 2)$, he can have the following moves only:
+
+    $$\begin{cases}
+        (1 , 2) \rightarrow (1, 1) & \text{loses according to Lemma 1} \\
+        (1, 2) \rightarrow (1, 0) & \text{loses according to Lemma 2} \\
+        (1, 2) \rightarrow (2, 0) & \text{loses according to Lemma 2}
+    \end{cases}$$
+
+    Note that if $b < 2$, the situation becomes $(0,1)$ or $(1, 1)$, then player M must win
+
+
+    if $b > 2$, then player M can $(1, b) \rightarrow (1, 2)$, which means player N must lose.
+
+    $\\ \\$
+    Induction steps: Assume there exists $k \in \mathbb{N}$ such that the statement is true for all $i \in \mathbb{N}_{\leq k}$, ie player M must lose if he faces $(1 + i, 1 + 2i)$. Consider $k + 1$:
+    
+    If player M faces $(1 + k + 1, 1 + 2k + 2)$, he can have the following move:
+
+    $$\\ \\$$
+    1. Removing $j \leq k$ blocks from A: 
+        $$(1 + k + 1, 1 + 2k + 2) \rightarrow (1 + k + 1 - j, 1 + 2k + 2)$$ 
+        Then player N can remove $2j$ blocks from B:
+        $$(1 + k + 1 - j, 1 + 2k + 2) \rightarrow (1 + k + 1 - j, 1 + 2(k + 1 - j))$$
+        where player M must lose by assumption.
+
+    $$\\ \\$$
+    2. Removing $j \leq k$ blocks from B: 
+        $$(1 + k + 1, 1 + 2k + 2) \rightarrow (1 + k + 1, 1 + 2k + 2 - j)$$ 
+        Then player N can remove $j$ blocks from both A and B:
+        $$(1 + k + 1, 1 + 2k + 2 - j) \rightarrow (1 + k + 1 - j, 1 + 2(k + 1 - j))$$
+        where player M must lose by assumption.
+    \newpage
+
+    3. Removing $j \leq k$ blocks from both A and B: 
+        $$(1 + k + 1, 1 + 2k + 2) \rightarrow (1 + k + 1 - j, 1 + 2k + 2 - j)$$ 
+        Then player N can remove $j$ blocks from  B:
+        $$(1 + k + 1 - j, 1 + 2k + 2 - j) \rightarrow (1 + k + 1 - j, 1 + 2(k + 1 - j))$$
+        where player M must lose by assumption.
+
+    $$\\ \\$$
+    4. Removing $j: k + 1 < j < 2k + 2$ blocks from B: 
+        $$(1 + k + 1, 1 + 2k + 2) \rightarrow (1 + k + 1, 1 + 2k + 2 - j)$$ 
+        Then player N can remove $3k + 3 - j$ blocks from both A and B:
+        $$(1 + k + 1, 1 + 2k + 2 - j) \rightarrow (1 - 2k - 2 + 2j , 1 - k - 1 + j) = (1 + j - k - 1, 1 + 2(j - k - 1 ))$$
+        where player M must lose by assumption.
+
+    $$\\ \\$$
+    5. Removing $k + 1, k + 2$ blocks from A, $2k + 2, 2k + 3$ blocks from B,
+    
+    or $k + 1, k + 2$ blocks from both A and B:
+        
+    These will result in $(0, n), (1, n)$, which must lose by Lemma 1 $\&$ 2.
+    
+    $$\\ \\$$
+    If player M faces $(1 + k + 1, 1 + 2k + 2 - j)$ or $(1 + k + 1, 1 + 2k + 2 + j)$, where $1 \leq j \leq k$, he can do the following to make sure he can win:
+    $$\begin{cases}
+        \text{Remove $j$ blocks from both A and B} & (1 + k + 1, 1 + 2k + 2 - j)\rightarrow (1 + k + 1 - j, 1 + 2(k + 1 - j))\\
+        \text{Remove $j$ blocks from  and B} & (1 + k + 1, 1 + 2k + 2 + j)\rightarrow (1 + k + 1, 1 + 2(k + 1 ))\\
+
+    \end{cases}$$
+
+    Therefore, by strong induction, we have successfully prove that if there exists $d \in \mathbb{N}_{\geq 1}$ such that $a$ and $b$ can be expressed in form of $1 + d$ and $1 + 2d$, then the play must lose, else must win.
+
+
+\end{document}
